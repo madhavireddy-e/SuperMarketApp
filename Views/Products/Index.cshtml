@@ -1,0 +1,37 @@
+@model List<SuperMarketApp.Models.Product>
+
+<h2>Product List</h2>
+<p>
+    @if (CurrentUser.Role == UserRole.Admin)
+    {
+        <a href="/Products/Create" class="btn btn-primary">+ Add New Product</a>
+    }
+</p>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price ($)</th>
+        <th>Stock</th>
+    </tr>
+
+@foreach (var product in Model)
+{
+    <tr>
+        <td>@product.Id</td>
+        <td>@product.Name</td>
+        <td>@product.Price</td>
+        <td>@product.Stock</td>
+        <td>
+            <a href="/Products/Details/@product.Id">View Details</a> 
+            @if (CurrentUser.Role == UserRole.Admin)
+                {
+                <a href="/Products/Edit/@product.Id">Edit</a> 
+                <a href="/Products/Delete/@product.Id">Delete</a>
+                }
+        </td>
+    </tr>
+}
+</table>
+

@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">Welcome to <span class="text-success">SuperMarketApp!</span></h1>
+        <p class="lead text-muted">Effortlessly manage your products, stock, and business insights.</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-center gap-3 mb-5">
+        <a class="btn btn-success btn-lg shadow-sm" asp-controller="Products" asp-action="Create">
+            <i class="bi bi-plus-circle me-2"></i> Add New Product
+        </a>
+        <a class="btn btn-outline-primary btn-lg shadow-sm" asp-controller="Products" asp-action="Index">
+            <i class="bi bi-box-seam me-2"></i> View All Products
+        </a>
+    </div>
+
+    <hr class="my-5" />
+
+    <!-- Overview Cards -->
+    <div class="row text-center">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Products</h5>
+                    <h2 class="fw-bold text-primary">@ViewBag.TotalProducts</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Low Stock Products</h5>
+                    <h2 class="fw-bold text-danger">@ViewBag.LowStock</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p class="text-muted">
+            📘 Learn more about 
+            <a href="https://learn.microsoft.com/aspnet/core" target="_blank" class="fw-semibold">ASP.NET Core Web Apps</a>.
+        </p>
+    </div>
+</div>
