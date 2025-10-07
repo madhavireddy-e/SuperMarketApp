@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SuperMarketApp.Controllers
 {
+    [Route("[controller]")]
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
@@ -15,43 +16,40 @@ namespace SuperMarketApp.Controllers
             _context = context;
         }
 
-        
+        // GET: /Products
+        [HttpGet]
         public IActionResult Index()
         {
             var products = _context.Products.ToList();
             return View(products);
         }
 
-
+        // GET: /Products/Details/5
+        [HttpGet("Details/{id}")]
         [Authorize]
         public IActionResult Details(int id)
         {
-
-            // Find product by Id
-            // var product = products.FirstOrDefault(p => p.Id == id);
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
 
             if (product == null)
-            {
-                return NotFound(); // If no product, return 404
-            }
+                return NotFound(); // 404 if not found
 
             return View(product);
         }
 
         // GET: /Products/Create
         [Authorize(Roles = "Admin")]
-        
+        [HttpGet("Create")]
         public IActionResult Create()
         {
             if (CurrentUser.Role != UserRole.Admin)
-                return Unauthorized(); // 401 page
+                return Unauthorized(); // 401 if not admin
 
             return View();
         }
 
         // POST: /Products/Create
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public IActionResult Create(Product product)
@@ -61,8 +59,8 @@ namespace SuperMarketApp.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Products.Add(product);   // Insert into DB
-                _context.SaveChanges();           // Commit changes
+                _context.Products.Add(product);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -70,6 +68,8 @@ namespace SuperMarketApp.Controllers
         }
 
         // GET: /Products/Edit/5
+        [HttpGet("Edit/{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
@@ -78,7 +78,7 @@ namespace SuperMarketApp.Controllers
         }
 
         // POST: /Products/Edit/5
-        [HttpPost]
+        [HttpPost("Edit")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(Product product)
@@ -96,6 +96,8 @@ namespace SuperMarketApp.Controllers
         }
 
         // GET: /Products/Delete/5
+        [HttpGet("Delete/{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.Id == id);
@@ -104,7 +106,7 @@ namespace SuperMarketApp.Controllers
         }
 
         // POST: /Products/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
@@ -120,6 +122,5 @@ namespace SuperMarketApp.Controllers
             }
             return RedirectToAction("Index");
         }
-        
     }
-} 
+}

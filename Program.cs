@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
   //  options.UseSqlite("Data Source=supermarket.db"));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions => sqlOptions.EnableRetryOnFailure()));
 
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
